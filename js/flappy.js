@@ -22,6 +22,12 @@ var btn4 = new Botao(135,430,150,20);
 var pontos = 0;
 
 //  --- Funções ---
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function passo(t) {
-  
+    
 }
