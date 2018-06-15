@@ -19,3 +19,9 @@ var btn1 = new Botao(400,150,200,70);
 var btn2 = new Botao(400,250,200,70);
 var btn3 = new Botao(400,350,200,70);
 var btn4 = new Botao(135,430,150,20);
+var pontos = 0;
+
+//  --- Funções ---
+function passo(t) {
+  
+}
