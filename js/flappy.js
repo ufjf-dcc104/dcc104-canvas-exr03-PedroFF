@@ -8,6 +8,9 @@ imagens.load("enter", "imagens/enter.png");
 imagens.load("rank", "imagens/rank.png");
 imagens.load("info", "imagens/info.png");
 imagens.load("voltar", "imagens/voltar.png");
+imagens.load("canoCima", "imagens/canoCima.png");
+imagens.load("canoBaixo", "imagens/canoBaixo.png");
+imagens.load("foreground", "imagens/foreground.png");
 
 //  --- Sons ---
 //var audios = new AudioLibrary();
@@ -18,15 +21,14 @@ var estado = "menu";
 var btn1 = new Botao(400,150,200,70);
 var btn2 = new Botao(400,250,200,70);
 var btn3 = new Botao(400,350,200,70);
-var btn4 = new Botao(135,430,150,20);
+var btn4 = new Botao(45,430,150,20);
 var pontos = 0;
-
-//  --- Funções ---
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+var canos =[];
+canos[0] ={
+  x:tela.width,
+  y:0
+};
+var fish = new Sprite();
 
 function passo(t) {
     if(estado == "menu"){
@@ -39,6 +41,7 @@ function passo(t) {
         telaSobre();
     }else if (estado == "jogo") {
       pontos = 0;
+      telaJogo();
     }
 }
 requestAnimationFrame(passo);
@@ -67,3 +70,4 @@ tela.onclick = function(e){
       }
     }
 }
+tela.addEventListener("onkeydown")

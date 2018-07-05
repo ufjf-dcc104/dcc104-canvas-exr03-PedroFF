@@ -1,11 +1,32 @@
 function telaJogo()
 {
+  var c = 0;
   pincel.fillStyle = "black";
   pincel.fillRect(0,0, tela.width, tela.height);
   pincel.font="20px Arial";
   imagens.draw(pincel,"backg", 0, 0);
-  pincel.fillStyle = "white";
+  pincel.fillStyle = "black";
   pincel.fillText("Pontuação: " + pontos, 50,50);
+
+  // --- Desenhando ---
+  imagens.draw(pincel,"canoCima",cX,cY);
+  imagens.draw(pincel,"canoBaixo",cX,cY + c);
+  imagens.draw(pincel, "foreground",0,tela.height-fg.height);
+  imagens.draw(pincel, "fish", fish.x,fish.y);
+
+
+  for(var i = 0; i<canos.length; i++){
+    imagens.draw(pincel,"canoCima", canos[i].x, canos[i].y);
+    imagens.draw(pincel,"canoBaixo", canos[i].x, canos[i].y+ c);
+    pipe[i].x--;
+    if (canos[i].x == tela.width - 300) {
+        canos.push(
+          x:tela.width,
+          y:Math.floor(Math.random()*canoCima.height) - canoCima.height
+        );
+    }
+  }
+  fish.y+= G;
   requestAnimationFrame(passo);
 }
 
@@ -41,7 +62,7 @@ function telaSobre() {
   pincel.fillText("Aperte ESC ou clique na seta, para voltar ao menu.", 300, 290);
   pincel.fillText("Bom jogo!",400, 360);
   pincel.fillRect(btn4.x,btn4.y, btn4.w, btn4.h);
-  imagens.draw(pincel,"voltar", 100, 400);
+  imagens.draw(pincel,"voltar", 10, 400);
   requestAnimationFrame(passo);
 }
 
@@ -50,62 +71,62 @@ function telaRank() {
   pincel.fillRect(0,0, tela.width, tela.height);
   imagens.draw(pincel,"backg", 0, 0);
   pincel.font="Bold 70px Arial";
-  pincel.fillText("Rank", 150, 100);
-  if(localStorage.getItem('pontuacao') != null){
+  pincel.fillText("Rank", 400, 100);
+  if(localStorage.getItem('pontos') != null){
     ordenaRank();
-    var retomaPont = JSON.parse(localStorage.getItem('pontuacao'));
+    var retomaPont = JSON.parse(localStorage.getItem('pontos'));
     pincel.font="Bold 35px Arial";
-    pincel.fillText("NOME", 100, 200);
-    pincel.fillText("SCORE", 280, 200);
+    pincel.fillText("NOME", 340, 200);
+    pincel.fillText("SCORE", 480, 200);
     var j = 50
     for (var i = 0; i < retomaPont.length && i <= 5; i++) {
-      pincel.fillText(1+i +". " + retomaPont[i].nome, 100, 200+j);
-      pincel.fillText(retomaPont[i].pontuacao, 280, 200+j);
+      pincel.fillText(1+i +". " + retomaPont[i].nome, 300, 200+j);
+      pincel.fillText(retomaPont[i].pontos, 480, 200+j);
       j+=50;
     }
   }else{
-    var pontuacao = [{"nome":"Pedro", "pontuacao":50}];
-    localStorage.setItem('pontuacao', JSON.stringify(pontuacao));
-    var retomaPont = JSON.parse(localStorage.getItem('pontuacao'));
+    var pontos = [{"nome":"Pedro", "pontos":50}];
+    localStorage.setItem('pontos', JSON.stringify(pontos));
+    var retomaPont = JSON.parse(localStorage.getItem('pontos'));
     pincel.font="Bold 35px Arial";
-    pincel.fillText("NOME", 100, 200);
-    pincel.fillText("SCORE", 280, 200);
+    pincel.fillText("NOME", 300, 200);
+    pincel.fillText("SCORE", 480, 200);
     var j = 50
-    pincel.fillText("1. " + retomaPont[0].nome, 100, 200+j);
-    pincel.fillText(retomaPont[0].pontuacao, 280, 200+j);
+    pincel.fillText("1. " + retomaPont[0].nome, 300, 200+j);
+    pincel.fillText(retomaPont[0].pontos, 480, 200+j);
   }
 
   pincel.fillRect(btn4.x,btn4.y, btn4.w, btn4.h);
-  imagens.draw(pincel,"voltar", 100, 400);
+  imagens.draw(pincel,"voltar", 10, 400);
 }
 
 // --- Funções que tratam os pontos ---
 
-function salvarPontuacao() {
-  if(localStorage.getItem('pontuacao') != null){
-    var retomaPont = JSON.parse(localStorage.getItem('pontuacao'));
+function salvarpontos() {
+  if(localStorage.getItem('pontos') != null){
+    var retomaPont = JSON.parse(localStorage.getItem('pontos'));
     var nome = document.querySelector('#nome').value;
-    retomaPont.push({'nome':nome , 'pontuacao': pontos});
-    localStorage.setItem('pontuacao',JSON.stringify(retomaPont));
+    retomaPont.push({'nome':nome , 'pontos': pontos});
+    localStorage.setItem('pontos',JSON.stringify(retomaPont));
   }else{
-    var pontuacao = [{"nome":"Pedro", "pontuacao":300}];
-    localStorage.setItem('pontuacao', JSON.stringify(pontuacao));
+    var pontos = [{"nome":"Pedro", "pontos":50}];
+    localStorage.setItem('pontos', JSON.stringify(pontos));
   }
 }
 
 function compare(a,b) {
-  if (a.pontuacao > b.pontuacao)
+  if (a.pontos > b.pontos)
      return -1;
-  if (a.pontuacao < b.pontuacao)
+  if (a.pontos < b.pontos)
     return 1;
   return 0;
 }
 
 
 function ordenaRank() {
-  if(localStorage.getItem('pontuacao') != null){
-    var retomaPont = JSON.parse(localStorage.getItem('pontuacao'));
+  if(localStorage.getItem('pontos') != null){
+    var retomaPont = JSON.parse(localStorage.getItem('pontos'));
     retomaPont.sort(compare);
-    localStorage.setItem('pontuacao', JSON.stringify(retomaPont));
+    localStorage.setItem('pontos', JSON.stringify(retomaPont));
   }
 }
