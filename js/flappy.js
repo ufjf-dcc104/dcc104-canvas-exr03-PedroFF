@@ -29,5 +29,41 @@ function getRandomIntInclusive(min, max) {
 }
 
 function passo(t) {
-    
+    if(estado == "menu"){
+      telaTitle();
+      return;
+    }else if (estado == "rank") {
+      telaRank();
+      return;
+    }else if (estado == "info") {
+        telaSobre();
+    }else if (estado == "jogo") {
+      pontos = 0;
+    }
+}
+requestAnimationFrame(passo);
+
+tela.onclick = function(e){
+  var rectNav = tela.getBoundingClientRect();
+  var pos = {
+      x: e.clientX - rectNav.left,
+      y: e.clientY - rectNav.top
+  };
+  if(estado == "menu"){
+    if (pos.x>btn1.x && pos.x<(btn1.x+btn1.w) && pos.y>btn1.y && pos.y<(btn1.y+btn1.h)){
+        telaJogo();
+        estado = "jogo";
+      } else if(pos.x>btn2.x && pos.x<(btn2.x+btn2.w) && pos.y>btn2.y && pos.y<(btn2.y+btn2.h)){
+        telaRank();
+        estado = "rank";
+      } else if(pos.x>btn3.x && pos.x<(btn3.x+btn3.w) && pos.y>btn3.y && pos.y<(btn3.y+btn3.h)){
+        telaSobre();
+        estado = "info";
+      }
+  } else if (estado == "info" || estado == "rank") {
+      if(pos.x>btn4.x && pos.x<(btn4.x+btn4.w) && pos.y>btn4.y && pos.y<(btn4.y+btn4.h)){
+      telaTitle();
+      estado = "menu";
+      }
+    }
 }
